@@ -27,7 +27,7 @@ Built using **HTML**, **CSS**, and **JavaScript**.
 
 ## 🚀 Demo
 You can check the live version here:  
-[Live Demo](https://SaniaDebbarma.github.io/pixel-heart-loading-animation) <!-- Update after hosting -->
+[Live Demo](https://github.com/SaniaDebbarma/pixel-heart-loading-animation/tree/main) 
 
 ---
 
