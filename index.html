@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Pixel art Heart shape Loading</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FACAD6;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 32px;
+        }
+
+        /* the heart */
+        .pixel-heart {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            margin-bottom: 16px;
+        }
+
+        .pixel {
+            width: 25px;
+            height: 20px;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        .pixel.filled {
+            background-color: #9D182B;
+            border: 1px solid black;
+        }
+
+        .pixel.empty {
+            background-color: transparent;
+        }
+
+        /* Loading Bar */
+        .loading-bar {
+            display: flex;
+            gap: 1px;
+            margin-bottom: 16px;
+        }
+
+        .loading-block {
+            width: 30px;
+            height: 34px;
+            border: 2px solid black;
+            background-color: #FFFFFF;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        .loading-block.filled {
+            background-color: #9D182B;
+        }
+
+        /* Percentage Text */
+        .percentage {
+            font-family: 'Courier New', monospace;
+            font-size: 24px;
+            font-weight: bold;
+            color: #AB0410;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            image-rendering: -moz-crisp-edges;
+            -ms-interpolation-mode: nearest-neighbor;
+        }
+
+        /* Heart Animation */
+        .pixel-heart {
+            animation: heartbeat 2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 50%, 100% {
+                transform: scale(1);
+            }
+            25%, 75% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="pixel-heart" id="pixelHeart">
+            <!-- Row 1 -->
+            <div class="pixel empty"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel empty"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel empty"></div>
+            
+            <!-- Row 2 -->
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            
+            <!-- Row 3 -->
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            
+            <!-- Row 4 -->
+            <div class="pixel empty"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel empty"></div>
+            
+            <!-- Row 5 -->
+            <div class="pixel empty"></div>
+            <div class="pixel empty"></div>
+            <div class="pixel filled"></div>
+            <div class="pixel empty"></div>
+            <div class="pixel empty"></div>
+        </div>
+
+        <!-- Loading Bar -->
+        <div class="loading-bar" id="loadingBar">
+            <!-- 16 blocks for loading bar -->
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+        </div>
+
+        <!-- Percentage Text -->
+        <div class="percentage" id="percentage">0%</div>
+    </div>
+
+    <script>
+        // Loading animation variables
+        let progress = 0;
+        const totalBlocks = 16;
+        const loadingBlocks = document.querySelectorAll('.loading-block');
+        const percentageElement = document.getElementById('percentage');
+
+        // Animation function
+        function updateProgress() {
+            // Update percentage
+            percentageElement.textContent = progress + '%';
+            
+            // Calculate filled blocks
+            const filledBlocks = Math.floor((progress / 100) * totalBlocks);
+            
+            // Update loading bar blocks
+            loadingBlocks.forEach((block, index) => {
+                if (index < filledBlocks) {
+                    block.classList.add('filled');
+                } else {
+                    block.classList.remove('filled');
+                }
+            });
+            
+            // Increment progress
+            progress++;
+            
+            // Reset when reaching 100%
+            if (progress > 100) {
+                progress = 0;
+            }
+        }
+
+        // Start the animation
+        setInterval(updateProgress, 20); // Update every 20ms
+
+        
+        document.addEventListener('click', function() {
+            progress = 0;
+        });
+
+        let heartElement = document.getElementById('pixelHeart');
+        
+        // Add extra pulse on complete
+        setInterval(function() {
+            if (progress === 100) {
+                heartElement.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    heartElement.style.transform = 'scale(1)';
+                }, 200);
+            }
+        }, 100);
+    </script>
+</body>
+</html>
